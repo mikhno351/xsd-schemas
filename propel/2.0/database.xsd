@@ -124,7 +124,26 @@
                       </xs:union>
                     </xs:simpleType>
                   </xs:attribute>
-                  <xs:attribute name="phpType" type="xs:string" use="optional" />
+                  <xs:attribute name="phpType" use="optional">
+                    <xs:simpleType>
+                      <xs:union>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="boolean" />
+                            <xs:enumeration value="int" />
+                            <xs:enumeration value="integer" />
+                            <xs:enumeration value="double" />
+                            <xs:enumeration value="float" />
+                            <xs:enumeration value="string" />
+                          </xs:restriction>
+                        </xs:simpleType>
+                        
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string" />
+                        </xs:simpleType>
+                      </xs:union>
+                    </xs:simpleType>
+                  </xs:attribute>
                   <xs:attribute name="sqlType" type="xs:string" use="optional" />
                   <xs:attribute name="size" type="xs:integer" use="optional" />
                   <xs:attribute name="scale" type="xs:integer" use="optional" />
