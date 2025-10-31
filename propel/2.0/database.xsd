@@ -25,6 +25,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="ForeignOn">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cascade" />
+      <xs:enumeration value="setnull" />
+      <xs:enumeration value="restrict" />
+      <xs:enumeration value="none" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <!-- root element database -->
   <xs:element name="database">
     <xs:complexType>
@@ -72,7 +81,49 @@
                     default="false" />
                   <xs:attribute name="required" type="BooleanType" use="optional"
                     default="false" />
-                  <xs:attribute name="type" type="xs:string" use="optional" />
+                  <xs:attribute name="type" use="optional">
+                    <xs:simpleType>
+                      <xs:union>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="BOOLEAN" />
+                            <xs:enumeration value="TINYINT" />
+                            <xs:enumeration value="SMALLINT" />
+                            <xs:enumeration value="INTEGER" />
+                            <xs:enumeration value="BIGINT" />
+                            <xs:enumeration value="DOUBLE" />
+                            <xs:enumeration value="FLOAT" />
+                            <xs:enumeration value="REAL" />
+                            <xs:enumeration value="DECIMAL" />
+                            <xs:enumeration value="NUMERIC" />
+                            <xs:enumeration value="CHAR" />
+                            <xs:enumeration value="VARCHAR" />
+                            <xs:enumeration value="LONGVARCHAR" />
+                            <xs:enumeration value="DATE" />
+                            <xs:enumeration value="TIME" />
+                            <xs:enumeration value="TIMESTAMP" />
+                            <xs:enumeration value="BLOB" />
+                            <xs:enumeration value="CLOB" />
+                            <xs:enumeration value="OBJECT" />
+                            <xs:enumeration value="ARRAY" />
+                            <xs:enumeration value="ENUM" />
+                            <xs:enumeration value="SET" />
+                            <xs:enumeration value="GEOMETRY" />
+                            <xs:enumeration value="BU_DATE" />
+                            <xs:enumeration value="BU_TIMESTAMP" />
+                            <xs:enumeration value="BOOLEAN_EMU" />
+                            <xs:enumeration value="BINARY" />
+                            <xs:enumeration value="VARBINARY" />
+                            <xs:enumeration value="LONGVARBINARY" />
+                          </xs:restriction>
+                        </xs:simpleType>
+                  
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string" />
+                        </xs:simpleType>
+                      </xs:union>
+                    </xs:simpleType>
+                  </xs:attribute>
                   <xs:attribute name="phpType" type="xs:string" use="optional" />
                   <xs:attribute name="sqlType" type="xs:string" use="optional" />
                   <xs:attribute name="size" type="xs:integer" use="optional" />
@@ -88,7 +139,14 @@
                   <xs:attribute name="primaryString" type="BooleanType" use="optional"
                     default="false" />
                   <xs:attribute name="phpNamingMethod" type="PhpNamingMethodType" use="optional" />
-                  <xs:attribute name="inheritance" type="PhpNamingMethodType" use="optional" />
+                  <xs:attribute name="inheritance" use="optional">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="single" />
+                        <xs:enumeration value="false" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
                 </xs:complexType>
               </xs:element>
 
@@ -107,11 +165,26 @@
                   <xs:attribute name="name" type="xs:string" use="optional" />
                   <xs:attribute name="phpName" type="xs:string" use="optional" />
                   <xs:attribute name="refPhpName" type="xs:string" use="optional" />
-                  <xs:attribute name="onDelete" type="xs:string" use="optional" />
-                  <xs:attribute name="onUpdate" type="xs:string" use="optional" />
+                  <xs:attribute name="onDelete" type="ForeignOn" use="optional" />
+                  <xs:attribute name="onUpdate" type="ForeignOn" use="optional" />
                   <xs:attribute name="skipSql" type="BooleanType" use="optional"
                     default="false" />
-                  <xs:attribute name="defaultJoin" type="xs:string" use="optional" />
+                  <xs:attribute name="defaultJoin" use="optional">
+                    <xs:simpleType>
+                      <xs:union>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="Criteria::INNER_JOIN" />
+                            <xs:enumeration value="Criteria::LEFT_JOIN" />
+                          </xs:restriction>
+                        </xs:simpleType>
+
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string" />
+                        </xs:simpleType>
+                      </xs:union>
+                    </xs:simpleType>  
+                  </xs:attribute>
                 </xs:complexType>
               </xs:element>
 
