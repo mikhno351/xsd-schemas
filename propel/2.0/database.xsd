@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:simpleType name="IdMethodType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="native" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PhpNamingMethodType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="nochange" />
+      <xs:enumeration value="underscore" />
+      <xs:enumeration value="phpname" />
+      <xs:enumeration value="clean" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BooleanType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true" />
+      <xs:enumeration value="false" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- root element database -->
+  <xs:element name="database">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="vendor" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="external-schema" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="filename" type="xs:string" use="required" />
+            <xs:attribute name="referenceOnly" type="BooleanType" use="optional"
+              default="false" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="table" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="column" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="inheritance" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                        <xs:attribute name="class" type="xs:string" use="required" />
+                        <xs:attribute name="extends" type="xs:string" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="phpName" type="xs:string" use="optional" />
+                  <xs:attribute name="tableMapName" type="xs:string" use="optional" />
+                  <xs:attribute name="primaryKey" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="required" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="type" type="xs:string" use="optional" />
+                  <xs:attribute name="phpType" type="xs:string" use="optional" />
+                  <xs:attribute name="sqlType" type="xs:string" use="optional" />
+                  <xs:attribute name="size" type="xs:integer" use="optional" />
+                  <xs:attribute name="scale" type="xs:integer" use="optional" />
+                  <xs:attribute name="defaultValue" type="xs:string" use="optional" />
+                  <xs:attribute name="defaultExpr" type="xs:string" use="optional" />
+                  <xs:attribute name="valueSet" type="xs:string" use="optional" />
+                  <xs:attribute name="autoIncrement" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="lazyLoad" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="description" type="xs:string" use="optional" />
+                  <xs:attribute name="primaryString" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="phpNamingMethod" type="PhpNamingMethodType" use="optional" />
+                  <xs:attribute name="inheritance" type="PhpNamingMethodType" use="optional" />
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="foreign-key" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="reference" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="local" type="xs:string" use="required" />
+                        <xs:attribute name="foreign" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="foreignTable" type="xs:string" use="required" />
+                  <xs:attribute name="foreignSchema" type="xs:string" use="optional" />
+                  <xs:attribute name="name" type="xs:string" use="optional" />
+                  <xs:attribute name="phpName" type="xs:string" use="optional" />
+                  <xs:attribute name="refPhpName" type="xs:string" use="optional" />
+                  <xs:attribute name="onDelete" type="xs:string" use="optional" />
+                  <xs:attribute name="onUpdate" type="xs:string" use="optional" />
+                  <xs:attribute name="skipSql" type="BooleanType" use="optional"
+                    default="false" />
+                  <xs:attribute name="defaultJoin" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="index" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="index-column" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="size" type="xs:integer" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="unique" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="unique-column" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="size" type="xs:integer" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="id-method-parameter" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="vendor" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="value" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="type" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+
+            </xs:sequence>
+
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="idMethod" type="IdMethodType" use="optional" />
+            <xs:attribute name="phpName" type="xs:string" use="optional" />
+            <xs:attribute name="package" type="xs:string" use="optional" />
+            <xs:attribute name="schema" type="xs:string" use="optional" />
+            <xs:attribute name="namespace" type="xs:string" use="optional" />
+            <xs:attribute name="skipSql" type="BooleanType" use="optional" />
+            <xs:attribute name="abstract" type="BooleanType" use="optional" />
+            <xs:attribute name="phpNamingMethod" type="PhpNamingMethodType" use="optional" />
+            <xs:attribute name="baseClass" type="xs:string" use="optional" />
+            <xs:attribute name="description" type="xs:string" use="optional" />
+            <xs:attribute name="heavyIndexing" type="BooleanType" use="optional" />
+            <xs:attribute name="identifierQuoting" type="BooleanType" use="optional" />
+            <xs:attribute name="readOnly" type="BooleanType" use="optional" />
+            <xs:attribute name="treeMode" type="xs:string" use="optional" />
+            <xs:attribute name="reloadOnInsert" type="BooleanType" use="optional" />
+            <xs:attribute name="reloadOnUpdate" type="BooleanType" use="optional" />
+            <xs:attribute name="allowPkInsert" type="BooleanType" use="optional" />
+          </xs:complexType>
+        </xs:element>
+
+      </xs:sequence>
+
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="defaultIdMethod" type="IdMethodType" use="required" />
+      <xs:attribute name="package" type="xs:string" use="optional" />
+      <xs:attribute name="schema" type="xs:string" use="optional" />
+      <xs:attribute name="namespace" type="xs:string" use="optional" />
+      <xs:attribute name="baseClass" type="xs:string" use="optional" />
+      <xs:attribute name="defaultPhpNamingMethod" type="PhpNamingMethodType" use="optional"
+        default="underscore" />
+      <xs:attribute name="heavyIndexing" type="BooleanType" use="optional" />
+      <xs:attribute name="identifierQuoting" type="BooleanType" use="optional" />
+      <xs:attribute name="tablePrefix" type="xs:string" use="optional" />
+
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
